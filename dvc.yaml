@@ -1,0 +1,12 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - data/raw
+    - src/preprocess.py
+    params:
+    - preprocess.img_size
+    - preprocess.random_seed
+    - preprocess.test_split
+    outs:
+    - data/processed
