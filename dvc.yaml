@@ -10,3 +10,19 @@ stages:
     - preprocess.test_split
     outs:
     - data/processed
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/processed
+    - src/train.py
+    params:
+    - train.batch_size
+    - train.epochs
+    - train.learning_rate
+    - train.momentum
+    - train.weight_decay
+    outs:
+    - models
+    metrics:
+    - metrics.json:
+        cache: false
