@@ -1,0 +1,29 @@
+# params.yaml
+
+data:
+  raw_dir: data/raw/Cell_Imgs
+  processed_dir: data/processed
+
+preprocess:
+  img_size: 64
+  test_split: 0.2
+  random_seed: 42
+
+train:
+  batch_size: 32
+  epochs: 10
+  learning_rate: 0.001
+  momentum: 0.9
+  weight_decay: 0.0001
+
+model:
+  architecture: "resnet18"
+  pretrained: true
+
+dvc:
+  metrics_file: metrics.json
+  plots_dir: plots
+
+
+
+
