@@ -1,0 +1,22 @@
+# Malaria Cell Classification - Core Requirements
+
+# Deep Learning
+torch>=2.0.1
+torchvision>=0.15.2
+
+# Data handling
+numpy>=1.24.3
+pillow>=10.0.0
+pyyaml>=6.0.1
+
+# ML Pipeline & Versioning
+dvc>=3.0.0
+
+# Visualization & Development
+matplotlib>=3.7.0
+seaborn>=0.12.0
+jupyter>=1.0.0
+
+# Optional: Uncomment for deployment
+# flask>=2.3.3
+# gunicorn>=21.2.0

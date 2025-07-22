@@ -1,0 +1,30 @@
+# config/deploy.yaml - Configuration de déploiement
+
+deployment:
+  environment: production
+  model_path: models/model.pth
+  api_port: 5000
+  max_file_size: 16MB
+  
+monitoring:
+  enable_metrics: true
+  log_predictions: true
+  metrics_endpoint: /metrics
+  
+performance:
+  batch_size: 32
+  max_concurrent_requests: 10
+  timeout_seconds: 30
+  
+security:
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+  file_validation:
+    max_dimensions: [2048, 2048]
+    allowed_formats: [png, jpg, jpeg, gif, bmp]
+    
+cache:
+  enabled: true
+  ttl_seconds: 3600
+  max_size_mb: 100

@@ -1,7 +1,7 @@
 # params.yaml
 
 data:
-  raw_dir: data/raw/Cell_Imgs
+  raw_dir: data/raw/cell_images
   processed_dir: data/processed
 
 preprocess:

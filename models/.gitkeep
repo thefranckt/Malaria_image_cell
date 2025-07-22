@@ -1,0 +1,3 @@
+# Ce fichier maintient la structure du dossier dans Git
+# Les modèles entraînés seront sauvegardés ici
+# Fichiers .pth exclus par .gitignore (trop volumineux)

@@ -1,0 +1,15 @@
+# Requirements pour déploiement
+torch==2.0.1
+torchvision==0.15.2
+flask==2.3.3
+pillow==10.0.0
+pyyaml==6.0.1
+numpy==1.24.3
+werkzeug==2.3.7
+
+# Optionnel pour monitoring
+prometheus-client==0.17.1
+structlog==23.1.0
+
+# Pour déploiement cloud
+gunicorn==21.2.0

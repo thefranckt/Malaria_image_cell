@@ -1,10 +1,64 @@
 
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
 *.pkl
-*.ipynb_checkpoints/
-.env
-.DS_Store
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
 venv/
+env/
+.venv
+.env
 
+# Jupyter
+*.ipynb_checkpoints/
+.ipynb_checkpoints
 
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Models (too large for git)
+/models/*.pth
+/models/*.pt
+/models/*.pkl
+!models/.gitkeep
+
+# Data (use DVC instead)
+data/raw/cell_images/
+!data/raw/cell_images/.gitkeep
+data/processed/
+!data/processed/.gitkeep
+
+# DVC
+.dvc/cache/
+.dvc/tmp/
+.dvc/state
+
+# Logs and metrics
+*.log
+logs/
+metrics.json
+plots/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Docker
+.dockerignore
