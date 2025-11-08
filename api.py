@@ -1,21 +1,33 @@
-from flask import Flask, request, jsonify, render_template
+"""
+Flask REST API for Malaria Cell Classification.
+
+Provides web interface and REST endpoints for image classification.
+"""
+
+from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import os
-from src.deploy import MalariaClassifier
 import tempfile
-from PIL import Image
-import base64
-import io
+from pathlib import Path
+
+from src.inference import MalariaClassifier
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
-# Initialiser le classificateur
-classifier = MalariaClassifier()
+# Initialize classifier
+try:
+    classifier = MalariaClassifier()
+    print("✅ Model loaded successfully")
+except Exception as e:
+    print(f"❌ Error loading model: {e}")
+    classifier = None
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 
+
 def allowed_file(filename):
+    """Check if file extension is allowed."""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -86,27 +98,35 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """API endpoint pour la prédiction"""
+    """
+    API endpoint for single image classification.
+    
+    Returns:
+        JSON with prediction results
+    """
+    if classifier is None:
+        return jsonify({'error': 'Model not loaded'}), 500
+    
     try:
-        # Vérifier si un fichier a été uploadé
+        # Check if file was uploaded
         if 'file' not in request.files:
-            return jsonify({'error': 'Aucun fichier fourni'}), 400
+            return jsonify({'error': 'No file provided'}), 400
         
         file = request.files['file']
         if file.filename == '':
-            return jsonify({'error': 'Aucun fichier sélectionné'}), 400
+            return jsonify({'error': 'No file selected'}), 400
         
         if not allowed_file(file.filename):
-            return jsonify({'error': 'Format de fichier non supporté'}), 400
+            return jsonify({'error': 'File format not supported'}), 400
         
-        # Sauvegarder temporairement le fichier
+        # Save temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as tmp_file:
             file.save(tmp_file.name)
             
-            # Prédiction
-            result = classifier.predict_single(tmp_file.name)
+            # Prediction
+            result = classifier.predict(tmp_file.name)
             
-            # Nettoyer le fichier temporaire
+            # Cleanup
             os.unlink(tmp_file.name)
             
             return jsonify(result)
@@ -116,23 +136,35 @@ def predict():
 
 @app.route('/health')
 def health():
-    """Health check endpoint"""
-    return jsonify({'status': 'healthy', 'model_loaded': True})
+    """Health check endpoint."""
+    return jsonify({
+        'status': 'healthy' if classifier else 'unhealthy',
+        'model_loaded': classifier is not None
+    })
+
 
 @app.route('/batch_predict', methods=['POST'])
 def batch_predict():
-    """API endpoint pour la prédiction par batch"""
+    """
+    API endpoint for batch image classification.
+    
+    Returns:
+        JSON with list of prediction results
+    """
+    if classifier is None:
+        return jsonify({'error': 'Model not loaded'}), 500
+    
     try:
         files = request.files.getlist('files')
         if not files:
-            return jsonify({'error': 'Aucun fichier fourni'}), 400
+            return jsonify({'error': 'No files provided'}), 400
         
         results = []
         for file in files:
             if file and allowed_file(file.filename):
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as tmp_file:
                     file.save(tmp_file.name)
-                    result = classifier.predict_single(tmp_file.name)
+                    result = classifier.predict(tmp_file.name)
                     result['filename'] = secure_filename(file.filename)
                     results.append(result)
                     os.unlink(tmp_file.name)
