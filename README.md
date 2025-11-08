@@ -1,252 +1,502 @@
-# 🦠 Malaria Cell Classification# 🦠 Malaria Cell Classification
+# Malaria Cell Classification# 🦠 Malaria Cell Classification# 🦠 Malaria Cell Classification
 
 
 
-> **Production-ready deep learning system for automated detection of malaria parasites in blood cell images**Un classificateur d'images utilisant PyTorch et ResNet18 pour détecter automatiquement la présence de parasites de malaria dans des cellules sanguines.
+> **Deep learning system for automated detection of malaria parasites in blood cell images**
 
 
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)![Python](https://img.shields.io/badge/python-v3.9+-blue.svg)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)> **Production-ready deep learning system for automated detection of malaria parasites in blood cell images**Un classificateur d'images utilisant PyTorch et ResNet18 pour détecter automatiquement la présence de parasites de malaria dans des cellules sanguines.
 
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)![PyTorch](https://img.shields.io/badge/PyTorch-v2.0+-red.svg)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[![Code style: professional](https://img.shields.io/badge/code%20style-professional-brightgreen.svg)]()
 
-## 🎯 Objectif
 
-## 📋 Table of Contents
+## Overview[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)![Python](https://img.shields.io/badge/python-v3.9+-blue.svg)
+
+
+
+Production-ready computer vision system for binary classification of malaria-infected blood cells using ResNet18 transfer learning. Achieves **96.3% accuracy** on microscopic cell images.[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)![PyTorch](https://img.shields.io/badge/PyTorch-v2.0+-red.svg)
+
+
+
+### Key Features[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+
+
+- **Modular Architecture**: Clean separation of data, model, and inference[![Code style: professional](https://img.shields.io/badge/code%20style-professional-brightgreen.svg)]()
+
+- **Type-Safe**: Full type hints and dataclass configurations
+
+- **CLI Interface**: Professional command-line tool for all operations## 🎯 Objectif
+
+- **REST API**: Flask-based web service with Docker support
+
+- **Tested**: Unit tests with pytest## 📋 Table of Contents
+
+- **Documented**: Google-style docstrings throughout
 
 Ce projet implémente un système de classification automatique pour identifier les cellules sanguines infectées par la malaria. Il utilise des techniques de deep learning avec transfer learning sur un modèle ResNet18 pré-entraîné.
 
+## Quick Start
+
 - [Overview](#overview)
 
-- [Key Features](#key-features)## 📊 Dataset
+```bash
 
-- [Quick Start](#quick-start)
+# Install- [Key Features](#key-features)## 📊 Dataset
+
+git clone https://github.com/thefranckt/Malaria_image_cell.git
+
+cd Malaria_image_cell- [Quick Start](#quick-start)
+
+pip install -r requirements.txt
 
 - [Architecture](#architecture)- **Classes** : Parasitized (infecté) / Uninfected (sain)
 
-- [Performance](#performance)- **Format** : Images PNG 64x64 pixels
+# Prepare data
 
-- [Usage](#usage)- **Source** : Images de cellules sanguines microscopiques
+python cli.py prepare- [Performance](#performance)- **Format** : Images PNG 64x64 pixels
+
+
+
+# Train model- [Usage](#usage)- **Source** : Images de cellules sanguines microscopiques
+
+python cli.py train
 
 - [API Documentation](#api-documentation)- **Split** : 80% entraînement / 20% test
 
-- [Development](#development)
+# Predict
+
+python cli.py predict image.png --verbose- [Development](#development)
+
+```
 
 - [Deployment](#deployment)## 🏗️ Architecture
+
+## Project Structure
 
 - [Contributing](#contributing)
 
 ```
 
-## 🎯 Overviewsrc/
+malaria-classification/```
 
-├── preprocess.py      # Préparation des données
+├── src/                # Core package
 
-This project implements a **transfer learning-based** computer vision system for binary classification of malaria-infected blood cells. Using ResNet18 pre-trained on ImageNet, the model achieves **>96% accuracy** on microscopic cell images.├── train.py          # Entraînement du modèle
+│   ├── config.py      # Configuration management## 🎯 Overviewsrc/
 
-└── deploy.py         # Déploiement et inférence
+│   ├── data.py        # Data preprocessing
 
-### **Clinical Context**
+│   ├── model.py       # Model architecture & training├── preprocess.py      # Préparation des données
 
-config/
+│   └── inference.py   # Inference engine
 
-Malaria diagnosis via microscopy is labor-intensive and requires trained personnel. This automated system provides:├── params.yaml       # Configuration principale
+├── tests/              # Unit testsThis project implements a **transfer learning-based** computer vision system for binary classification of malaria-infected blood cells. Using ResNet18 pre-trained on ImageNet, the model achieves **>96% accuracy** on microscopic cell images.├── train.py          # Entraînement du modèle
 
-- Fast, scalable screening└── deploy.yaml       # Configuration déploiement
+├── cli.py              # Command-line interface
 
-- Consistent, reproducible results  
+├── api.py              # Flask REST API└── deploy.py         # Déploiement et inférence
 
-- Support tool for medical professionalsapi.py                # API Flask pour déploiement web
+└── params.yaml         # Hyperparameters
+
+```### **Clinical Context**
+
+
+
+## Usageconfig/
+
+
+
+### CLIMalaria diagnosis via microscopy is labor-intensive and requires trained personnel. This automated system provides:├── params.yaml       # Configuration principale
+
+
+
+```bash- Fast, scalable screening└── deploy.yaml       # Configuration déploiement
+
+# Prepare data (resize, train/test split)
+
+python cli.py prepare- Consistent, reproducible results  
+
+
+
+# Train with custom parameters- Support tool for medical professionalsapi.py                # API Flask pour déploiement web
+
+python cli.py train --epochs 20 --batch-size 64 --lr 0.0001
 
 - Potential for deployment in resource-limited settings```
 
+# Single prediction
 
-
-### **Technical Stack**## 🚀 Installation
-
-
-
-- **Framework**: PyTorch 2.0+ with torchvision### Prérequis
-
-- **Architecture**: ResNet18 (transfer learning)```bash
-
-- **Input**: 64x64 RGB microscopic imagesPython 3.9+
-
-- **Output**: Binary classification (Parasitized / Uninfected)pip install -r requirements.txt
-
-- **Deployment**: Flask REST API with Docker support```
+python cli.py predict cell.png --verbose
 
 
 
-## ✨ Key Features### Dépendances principales
+# Batch prediction### **Technical Stack**## 🚀 Installation
 
-```bash
-
-### **Engineering Best Practices**torch>=2.0.1
-
-torchvision>=0.15.2
-
-✅ **Modular Design**: Clean separation of concerns (data / model / inference)  pyyaml>=6.0.1
-
-✅ **Type Hints**: Full type annotations for better IDE support  pillow>=10.0.0
-
-✅ **Documentation**: Google-style docstrings throughout  dvc>=3.0.0
-
-✅ **Configuration Management**: Centralized config with validation  ```
-
-✅ **CLI Interface**: Professional command-line tool  
-
-✅ **Production Ready**: Docker deployment, logging, error handling  ## 📈 Utilisation
+python cli.py predict img1.png img2.png img3.png --batch
 
 
 
-### **ML Pipeline**### 1. Préparation des données
+# Dataset statistics
 
-```bash
-
-- **Data augmentation ready** (extensible transforms)python src/preprocess.py
-
-- **Reproducible experiments** (fixed random seeds)```
-
-- **Metric tracking** (train/test loss & accuracy history)
-
-- **Model checkpointing** (save best models automatically)### 2. Entraînement
-
-- **Efficient data loading** (PyTorch DataLoader optimizations)```bash
-
-python src/train.py
-
-## 🚀 Quick Start```
+python cli.py stats- **Framework**: PyTorch 2.0+ with torchvision### Prérequis
 
 
 
-### **Installation**### 3. Déploiement local
+# Launch web API- **Architecture**: ResNet18 (transfer learning)```bash
 
-```bash
+python cli.py serve --port 5000
 
-```bashpython api.py
+```- **Input**: 64x64 RGB microscopic imagesPython 3.9+
 
-# Clone the repository```
 
-git clone https://github.com/thefranckt/Malaria_image_cell.git
 
-cd Malaria_image_cell### 4. Pipeline DVC complet
+### Python API- **Output**: Binary classification (Parasitized / Uninfected)pip install -r requirements.txt
 
-```bash
 
-# Create virtual environment (recommended)dvc repro
 
-python -m venv venv```
+**Training:**- **Deployment**: Flask REST API with Docker support```
 
-source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+```python
 
-## 🎛️ Configuration
+from src import Config, prepare_data, train_model
 
-# Install dependencies
 
-pip install -r requirements.txtLe fichier `params.yaml` contient tous les hyperparamètres :
+
+config = Config.from_yaml()## ✨ Key Features### Dépendances principales
+
+prepare_data(config)
+
+model, history = train_model(config)```bash
 
 ```
 
-```yaml
+### **Engineering Best Practices**torch>=2.0.1
 
-### **Usage - CLI**train:
+**Inference:**
 
-  batch_size: 32
+```pythontorchvision>=0.15.2
 
-```bash  epochs: 10
+from src import MalariaClassifier
 
-# 1. Prepare data (resize, split train/test)  learning_rate: 0.001
-
-python cli.py prepare  
-
-model:
-
-# 2. Train the model  architecture: "resnet18"
-
-python cli.py train --epochs 10 --batch-size 32  pretrained: true
-
-  
-
-# 3. Make predictionspreprocess:
-
-python cli.py predict path/to/cell_image.png --verbose  img_size: 64
-
-  test_split: 0.2
-
-# 4. View dataset statistics```
-
-python cli.py stats
-
-## 📊 Performances
-
-# 5. Launch web API
-
-python cli.py serve --port 5000- **Architecture** : ResNet18 avec transfer learning
-
-```- **Accuracy attendue** : >95%
-
-- **Temps d'entraînement** : ~10 minutes (10 epochs)
-
-### **Usage - Python API**- **Taille du modèle** : ~45MB
-
-
-
-```python## 🌐 API Web
-
-from src import Config, train_model, MalariaClassifier
-
-Interface web disponible sur `http://localhost:5000` avec :
-
-# Train a model
-
-config = Config.from_yaml()- Upload d'images via interface intuitive
-
-model, history = train_model(config)- Prédictions en temps réel
-
-- Affichage des probabilités
-
-# Make predictions- API REST pour intégration
+✅ **Modular Design**: Clean separation of concerns (data / model / inference)  pyyaml>=6.0.1
 
 classifier = MalariaClassifier()
 
-result = classifier.predict("cell_image.png")### Endpoints
+result = classifier.predict("cell.png")✅ **Type Hints**: Full type annotations for better IDE support  pillow>=10.0.0
 
-print(f"{result['class']}: {result['confidence']:.2%}")```
+print(f"{result['class']}: {result['confidence']:.2%}")
+
+```✅ **Documentation**: Google-style docstrings throughout  dvc>=3.0.0
+
+
+
+### REST API✅ **Configuration Management**: Centralized config with validation  ```
+
+
+
+```bash✅ **CLI Interface**: Professional command-line tool  
+
+# Start server
+
+python cli.py serve✅ **Production Ready**: Docker deployment, logging, error handling  ## 📈 Utilisation
+
+
+
+# Predict
+
+curl -X POST -F "file=@cell.png" http://localhost:5000/predict
+
+### **ML Pipeline**### 1. Préparation des données
+
+# Health check
+
+curl http://localhost:5000/health```bash
+
+```
+
+- **Data augmentation ready** (extensible transforms)python src/preprocess.py
+
+**Endpoints:**
+
+- `GET /` - Web interface- **Reproducible experiments** (fixed random seeds)```
+
+- `POST /predict` - Single image classification
+
+- `POST /batch_predict` - Batch classification- **Metric tracking** (train/test loss & accuracy history)
+
+- `GET /health` - Health check
+
+- **Model checkpointing** (save best models automatically)### 2. Entraînement
+
+## Model Performance
+
+- **Efficient data loading** (PyTorch DataLoader optimizations)```bash
+
+| Metric | Value |
+
+|--------|-------|python src/train.py
+
+| Test Accuracy | 96.3% |
+
+| Train Accuracy | 99.8% |## 🚀 Quick Start```
+
+| Test Loss | 0.196 |
+
+| Training Time | ~10 min (10 epochs, CPU) |
+
+| Model Size | 45 MB |
+
+| Inference Speed | ~50ms/image (CPU) |### **Installation**### 3. Déploiement local
+
+
+
+## Configuration```bash
+
+
+
+Edit `params.yaml` to customize:```bashpython api.py
+
+
+
+```yaml# Clone the repository```
+
+data:
+
+  raw_dir: data/raw/cell_imagesgit clone https://github.com/thefranckt/Malaria_image_cell.git
+
+  img_size: 64
+
+  test_split: 0.2cd Malaria_image_cell### 4. Pipeline DVC complet
+
+  random_seed: 42
+
+```bash
+
+train:
+
+  batch_size: 32# Create virtual environment (recommended)dvc repro
+
+  epochs: 10
+
+  learning_rate: 0.001python -m venv venv```
+
+
+
+model:source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+
+  architecture: resnet18
+
+  pretrained: true## 🎛️ Configuration
+
+```
+
+# Install dependencies
+
+## Architecture
+
+pip install -r requirements.txtLe fichier `params.yaml` contient tous les hyperparamètres :
+
+**Model:** ResNet18 (ImageNet pretrained) with modified final layer
+
+```
+
+**Pipeline:**
+
+1. Image preprocessing (64x64, normalization)```yaml
+
+2. Transfer learning with ResNet18
+
+3. Binary classification (Parasitized/Uninfected)### **Usage - CLI**train:
+
+4. Softmax probabilities output
+
+  batch_size: 32
+
+**Key Design:**
+
+- Transfer learning for faster convergence```bash  epochs: 10
+
+- Only final FC layer modified
+
+- ImageNet normalization# 1. Prepare data (resize, split train/test)  learning_rate: 0.001
+
+- Stratified train/test split (80/20)
+
+python cli.py prepare  
+
+## Docker Deployment
+
+model:
+
+```bash
+
+# Build# 2. Train the model  architecture: "resnet18"
+
+docker build -t malaria-classifier .
+
+python cli.py train --epochs 10 --batch-size 32  pretrained: true
+
+# Run
+
+docker run -p 5000:5000 malaria-classifier  
+
+
+
+# Test# 3. Make predictionspreprocess:
+
+curl http://localhost:5000/health
+
+```python cli.py predict path/to/cell_image.png --verbose  img_size: 64
+
+
+
+## Development  test_split: 0.2
+
+
+
+**Testing:**# 4. View dataset statistics```
+
+```bash
+
+# Uncomment pytest in requirements.txtpython cli.py stats
+
+pip install pytest pytest-cov
+
+## 📊 Performances
+
+# Run tests
+
+pytest tests/ -v# 5. Launch web API
+
+
+
+# With coveragepython cli.py serve --port 5000- **Architecture** : ResNet18 avec transfer learning
+
+pytest --cov=src tests/
+
+``````- **Accuracy attendue** : >95%
+
+
+
+**Code Quality:**- **Temps d'entraînement** : ~10 minutes (10 epochs)
+
+```bash
+
+# Format### **Usage - Python API**- **Taille du modèle** : ~45MB
+
+pip install black
+
+black src/ cli.py
+
+
+
+# Lint```python## 🌐 API Web
+
+pip install flake8
+
+flake8 src/from src import Config, train_model, MalariaClassifier
+
+
+
+# Type checkInterface web disponible sur `http://localhost:5000` avec :
+
+pip install mypy
+
+mypy src/# Train a model
+
+```
+
+config = Config.from_yaml()- Upload d'images via interface intuitive
+
+## Dataset
+
+model, history = train_model(config)- Prédictions en temps réel
+
+- **Source**: [Malaria Cell Images Dataset](https://www.kaggle.com/iarunava/cell-images-for-detecting-malaria)
+
+- **Classes**: Parasitized (infected) / Uninfected (healthy)- Affichage des probabilités
+
+- **Total**: ~27,500 microscopic images
+
+- **Format**: PNG, thin blood smear images# Make predictions- API REST pour intégration
+
+
+
+## Requirementsclassifier = MalariaClassifier()
+
+
+
+- Python 3.9+result = classifier.predict("cell_image.png")### Endpoints
+
+- PyTorch 2.0+
+
+- torchvision 0.15+print(f"{result['class']}: {result['confidence']:.2%}")```
+
+- See `requirements.txt` for full list
 
 ```GET  /              # Interface web
 
+## License
+
 POST /predict       # Prédiction single image
+
+MIT License - see [LICENSE](LICENSE) file
 
 ## 🏗️ ArchitecturePOST /batch_predict # Prédiction batch
 
+## Author
+
 GET  /health        # Health check
 
-### **Project Structure**```
+**Franckt**  
+
+GitHub: [@thefranckt](https://github.com/thefranckt)### **Project Structure**```
 
 
 
-```## 🐳 Déploiement Docker
+## Citation
 
-malaria-cell-classification/
 
-│```bash
 
-├── src/                          # Core package# Build
+```bibtex```## 🐳 Déploiement Docker
+
+@software{malaria_classifier,
+
+  author = {Franckt},malaria-cell-classification/
+
+  title = {Malaria Cell Classification},
+
+  year = {2025},│```bash
+
+  url = {https://github.com/thefranckt/Malaria_image_cell}
+
+}├── src/                          # Core package# Build
+
+```
 
 │   ├── __init__.py              # Package exportsdocker build -t malaria-classifier .
 
+## Acknowledgments
+
 │   ├── config.py                # Configuration management
 
-│   ├── data.py                  # Data preprocessing pipeline# Run
+- Dataset provided by Kaggle community
+
+- ResNet architecture from [Deep Residual Learning](https://arxiv.org/abs/1512.03385)│   ├── data.py                  # Data preprocessing pipeline# Run
+
+- PyTorch framework
 
 │   ├── model.py                 # Model architecture & trainingdocker run -p 5000:5000 malaria-classifier
 
+---
+
 │   └── inference.py             # Inference engine```
+
+**Note:** This is a research project. Clinical deployment requires regulatory validation.
 
 │
 
