@@ -33,13 +33,20 @@ class MalariaClassifier:
     
     def _load_model(self, model_path):
         """Charger le modèle pré-entraîné"""
-        # Créer l'architecture
-        model = getattr(models, self.params["model"]["architecture"])(pretrained=False)
+        # Créer l'architecture (utiliser weights=None au lieu de pretrained=False)
+        model = getattr(models, self.params["model"]["architecture"])(weights=None)
         in_feats = model.fc.in_features
         model.fc = nn.Linear(in_feats, len(self.classes))
         
-        # Charger les poids
-        model.load_state_dict(torch.load(model_path, map_location=self.device))
+        # Charger les poids depuis le checkpoint
+        checkpoint = torch.load(model_path, map_location=self.device)
+        # Si c'est un dictionnaire avec metadata, extraire le state_dict
+        if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
+            model.load_state_dict(checkpoint['model_state_dict'])
+        else:
+            # Compatibilité avec ancien format
+            model.load_state_dict(checkpoint)
+        
         model.eval()
         model.to(self.device)
         

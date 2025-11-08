@@ -86,7 +86,12 @@ def main():
 
     # Modèle
     if p_m["architecture"].startswith("resnet"):
-        model = getattr(models, p_m["architecture"])(pretrained=p_m["pretrained"])
+        # Utiliser weights au lieu de pretrained (nouvelle API)
+        if p_m["pretrained"]:
+            weights = "DEFAULT"  # Utilise les poids par défaut (ImageNet)
+        else:
+            weights = None
+        model = getattr(models, p_m["architecture"])(weights=weights)
         # Ajuster la tête
         in_feats = model.fc.in_features
         model.fc = nn.Linear(in_feats, len(train_ds.classes))
